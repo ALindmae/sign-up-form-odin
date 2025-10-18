@@ -7,6 +7,48 @@
     font-display: swap;
 }
 
-.sign-up-visual {
-    background-image: url(./images/sign-up-background.jpg);
+:root{
+    font-family: 'Norse', 'Roboto', sans-serif;
 }
+
+.sign-up-page {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sign-up-visual {
+    width: 35%;
+    height: 100vh;
+    background-image: url(./images/sign-up-background.jpg);
+    background-size: cover;
+    position: relative;
+    display: flex;
+    flex-direction:column-reverse;
+    align-items: center;
+}
+
+.logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    opacity: 0.5;
+    width: 100%;
+    height: 7rem;
+    position: absolute;
+    top: 200px;
+}
+
+.odin-logo {
+    height:85%;
+}
+
+.photo-credit {
+    position: absolute;
+}
+
+
+
+
+
