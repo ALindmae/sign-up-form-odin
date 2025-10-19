@@ -9,6 +9,8 @@
 
 :root{
     font-family: 'Norse', 'Roboto', sans-serif;
+    box-sizing: border-box;
+
 }
 
 .sign-up-page {
@@ -18,7 +20,7 @@
 }
 
 .sign-up-visual {
-    width: 35%;
+    width: 35vw;
     height: 100vh;
     background-image: url(./images/sign-up-background.jpg);
     background-size: cover;
@@ -50,5 +52,47 @@
 
 
 
+.form-container {
+    padding: 50px 0px;
+    background-color: rgb(240, 240, 240);
+    width: 65vw;
+}
 
+.slogan-container {
+    width: 100%;
+}
+
+.sign-up-slogan {
+    margin:35px;
+    overflow-wrap: normal;
+    width: clamp(40ch, 66ch, 75ch);
+}
+
+.form-wrapper {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    box-shadow:0 6px 12px -6px grey;
+}
+
+.form-heading {
+    width:100%;
+    padding: 10px 35px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 35px;
+    width: 350px;
+    max-width: auto;
+    
+}
+
+input {
+    height: 27px;
+}
 
