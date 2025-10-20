@@ -63,9 +63,14 @@
 }
 
 .sign-up-slogan {
-    margin:35px;
+    margin: 35px;
     overflow-wrap: normal;
-    width: clamp(40ch, 66ch, 75ch);
+    max-width: clamp(45ch, 66ch, 75ch);
+}
+
+.slogan-emphasis {
+    display: block;
+    margin-top: 1.5rem;
 }
 
 .form-wrapper {
@@ -95,4 +100,31 @@
 input {
     height: 27px;
 }
+
+.form-actions {
+    padding: 35px;
+}
+
+button {
+    padding: 0.7rem 3rem;
+    font-family: 'Norse', 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    border: unset;
+    border-radius: 0.5rem;
+    background: #0069ed;
+    color: #ffffff;
+    cursor:pointer;
+}
+
+.redirect-text {
+    margin: 25px 0px;
+}
+
+.redirect-link {
+    color: #0069ed;
+    font-weight: 500;
+    text-decoration: none;
+}
+
 
