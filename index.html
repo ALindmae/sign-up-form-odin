@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Sign up </title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
     <div class="sign-up-page">
@@ -29,39 +30,40 @@
                             <h2> Let's do this!</h2>
                         </div>
                         <div class="form-group">
-                            <label for="first-name"> FIRST NAME </label>
-                            <input type="text" name="first-name" required>
-                            <div id="first-name-error"></div>
+                            <label for="first-name"> FIRST NAME* </label>
+                            <input type="text" name="first-name" required minlength="2" maxlength="25">
+                            <div class="error message" id="first-name-error"></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="last-name"> LAST NAME </label>
-                            <input type="text" name="last-name" required>
-                            <div id="last-name-error"></div>
+                            <label for="last-name"> LAST NAME* </label>
+                            <input type="text" name="last-name" required minlength="2" maxlength="25">
+                            <div class="error message" id="last-name-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email"> EMAIL </label>
+                            <label for="email"> EMAIL* </label>
                             <input type="email" name="email" required>
-                            <div id="email-error"></div>
+                            <div class="error message" id="email-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label for="phone-number"> PHONE NUMBER </label>
-                            <input type="tel" name="phone-number">
-                            <div id="phone-number-error"></div>
+                            <label for="phone-number"> PHONE NUMBER </label>    
+                            <input type="tel" name="phone-number" pattern="\+?\d{5,11}">
+                            <div class="error message" id="phone-number-error"></div>
                         </div>
 
                         <div class="form-group">
-                            <label for="password"> PASSWORD </label>
+                            <label for="password"> PASSWORD* </label>
                             <input type="password" name="password" required>
-                            <div id="password-error"></div>
+                            <div class="error message" id="password-error"></div>
+                            <div id="password-conditions"></div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="confirm-password"> CONFIRM PASSWORD </label>
+                            <label for="confirm-password"> CONFIRM PASSWORD* </label>
                             <input type="password" name="confirm-password" required>
-                            <div id="confirm-password-error"></div>
+                            <div class="error message" id="confirm-password-error"></div>
                         </div>
                     </div>
                 <div class="form-actions">
@@ -72,5 +74,157 @@
             </div>
         </div>
     </div>
+        <script>
+            const passwordRequirements = `
+                <span class="requirements title">For your security, create a password with at least:</span><br>
+                <span class="pw-rule pw-lowercase">
+                    <i class="icon fa-regular fa-circle-xmark"></i> One lowercase letter
+                </span><br>
+                <span class="pw-rule pw-uppercase">
+                    <i class="icon fa-regular fa-circle-xmark"></i> One uppercase letter
+                </span><br>
+                <span class="pw-rule pw-number">
+                    <i class="icon fa-regular fa-circle-xmark"></i> One number
+                </span><br>
+                <span class="pw-rule pw-special">
+                    <i class="icon fa-regular fa-circle-xmark"></i> One special character (e.g., @ ! $ & #)
+                </span><br>
+                <span class="pw-rule pw-length">
+                    <i class="icon fa-regular fa-circle-xmark"></i> 8 or more characters
+                </span>
+            `;
+     
+        
+            let passwordInput = document.querySelector("[name='password']");
+            let pwConditions = document.querySelector('#password-conditions');
+
+            // Show password requirements on focus
+            passwordInput.addEventListener('focus', (event) => {
+                if (passwordInput.value == '') pwConditions.innerHTML = passwordRequirements;
+            });
+
+            // Toggle condition matches colors
+                passwordInput.addEventListener('input', (event) => {
+                let lowerCaseCheck = document.querySelector('.pw-rule.pw-lowercase');
+                let upperCaseCheck = document.querySelector('.pw-rule.pw-uppercase');
+                let numberCheck = document.querySelector('.pw-rule.pw-number');
+                let specialCharCheck = document.querySelector('.pw-rule.pw-special');
+                let lengthCheck =  document.querySelector('.pw-rule.pw-length');
+                let checkIconClass = "icon fa-regular fa-circle-check";
+                let xIconClass = "icon fa-regular fa-circle-xmark";
+
+                let conditionsMet = [];
+
+                // lowercase check / toggle
+                if (/[a-z]/.test(passwordInput.value)) {
+                    lowerCaseCheck.children[0].classList = checkIconClass;
+                    lowerCaseCheck.style.color = "green";
+                    conditionsMet[0] = "valid";
+                }
+                else {
+                    lowerCaseCheck.children[0].classList = xIconClass;
+                    lowerCaseCheck.style.color = "grey";
+                    conditionsMet[0] = "invalid";
+                }
+                
+                // uppercase check / toggle
+                if (/[A-Z]/.test(passwordInput.value)) {
+                    upperCaseCheck.children[0].classList = checkIconClass;
+                    upperCaseCheck.style.color = "green";
+                    conditionsMet[1] = "valid";
+                }
+                else {
+                    upperCaseCheck.children[0].classList = xIconClass;
+                    upperCaseCheck.style.color = "grey";
+                    conditionsMet[1] = "invalid";
+                }
+
+                // number check / toggle
+                if (/\d/.test(passwordInput.value)) {
+                    numberCheck.children[0].classList = checkIconClass;
+                    numberCheck.style.color = "green";
+                    conditionsMet[2] = "valid";
+                }
+                else {
+                    numberCheck.children[0].classList = xIconClass;
+                    numberCheck.style.color = "grey";
+                    conditionsMet[2] = "invalid";
+                }
+
+                // special character check / toggle
+                if (/[^A-Za-z0-9\s]/.test(passwordInput.value)) {
+                    specialCharCheck.children[0].classList =  checkIconClass;
+                    specialCharCheck.style.color = "green";
+                    conditionsMet[3] = "valid";
+                }
+                else {
+                    specialCharCheck.children[0].classList = xIconClass;
+                    specialCharCheck.style.color = "grey";
+                    conditionsMet[4] = "invalid";
+                }
+
+                // 8 or more characters check / toggle
+                if (/.{8}/.test(passwordInput.value)) {
+                    lengthCheck.children[0].classList =  checkIconClass;
+                    lengthCheck.style.color = "green";
+                    conditionsMet[5] = "valid";
+                }
+                else {
+                    lengthCheck.children[0].classList = xIconClass;
+                    lengthCheck.style.color = "grey";
+                    conditionsMet[5] = "invalid";
+                }
+                if (conditionsMet.some((condition) => condition === "invalid")) {
+                    passwordInput.classList = "";
+                }
+                else {
+                    passwordInput.classList = "valid";
+                };
+        });
+
+
+
+            // Toggle error message
+
+            let form = document.querySelector('.form-wrapper');
+            form.addEventListener('focusout', (event) => {
+                let excIconTag = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                let id = event.target['name'];
+                let error = document.querySelector(`#${id}-error`);
+
+                // Compare 'password' and 'confirm password' fields for match
+                if (event.target['name'] === 'confirm-password' && event.target.value !== '') {
+                    let password = document.querySelector("[name='password']");
+                                          console.log(password.value);
+                        console.log(event.target.value);
+                    if (event.target.value != password.value) {
+                        event.target.classList.add('error');
+                        error.innerHTML = excIconTag + 'Passwords do not match';
+                    }
+                    else {
+                        error.textContent = '';
+                        event.target.classList.remove('error');
+                    }
+                }
+
+                else if (event.target['name'] === 'password' && !(event.target.classList.contains('valid'))) {
+                    error.innerHTML = excIconTag + `Please enter a valid ${id}!`;
+                    event.target.classList.add('error');
+                }
+                
+                // general error handling
+                else if (event.target['name'] !== 'password' && !(event.target.checkValidity())) {
+                    error.innerHTML = excIconTag + `Please enter a valid ${id}!`;
+                    event.target.classList.add('error');
+
+                }
+
+                else {
+                    error.textContent = '';
+                    event.target.classList.remove('error');
+
+                }
+            })
+    </script>
 </body>
 </html>

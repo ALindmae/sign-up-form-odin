@@ -15,13 +15,13 @@
 
 .sign-up-page {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
 }
 
 .sign-up-visual {
     width: 35vw;
-    height: 100vh;
+    height: auto;
     background-image: url(./images/sign-up-background.jpg);
     background-size: cover;
     position: relative;
@@ -54,7 +54,7 @@
 .photo-credit {
     position: absolute;
     color: white;
-    font-size: 0.6 rem;
+    font-size: 0.6rem;
 }
 
 
@@ -87,6 +87,7 @@
     height: auto;
     padding: 20px 0;
     box-shadow:0 6px 12px -6px grey;
+    box-sizing: border-box;
 }
 
 .form-heading {
@@ -101,7 +102,6 @@
     gap: 1px;
     padding: 15px 35px;
     width: 350px;
-    max-width: auto;
 }
 
 label {
@@ -147,3 +147,46 @@ button {
 input:focus {
     box-shadow: 5px 5px 15px -6px grey;
 }
+
+
+.error.message {
+    color: red;
+    margin: 8px 0;
+    font-size: 0.9rem;
+}
+
+
+.requirements.title {
+    display: inline-block;
+    font-weight: 500;
+    margin-bottom: 7px;
+    color:rgb(80, 80, 80);
+}
+
+#password-conditions {
+    color: grey;
+    margin: 9px 0;
+    font-size: 0.9rem;
+}
+
+.pw-rule {
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.icon.fa-regular {
+    margin-right: 3px;
+}
+
+input.error {
+    outline: 0.5px solid red;
+}
+
+.fa-triangle-exclamation {
+    margin-right: 3px;
+}
+
+
+
+
+
