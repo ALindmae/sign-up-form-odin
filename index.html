@@ -9,19 +9,19 @@
 </head>
 <body>
     <div class="sign-up-page">
-        <div class="sign-up-visual">
-            <div class="logo-wrapper">
-                <img src="./images/odin-lined.png" alt="" class="odin-logo">
-                <p class="logo-text">ODIN</p>
-            </div>
+            <div class="sign-up-visual">
+                <div class="logo-wrapper">
+                    <img src="./images/odin-lined.png" alt="" class="odin-logo">
+                    <p class="logo-text">ODIN</p>
+                </div>
             <p class="photo-credit">Photo by Cup of Couple on Pexels</p>
         </div>
         <div class="form-container">
             <div class="slogan-container">
-                <h2 class="sign-up-slogan">
+                <h1 class="sign-up-slogan">
                     This is not a real online service! You know you need something like this in your life to help you realize your deepest dreams. <br>Sign up <i>now</i> to get started.
                     <span class="slogan-emphasis">You <i>know</i> you want to.</span>
-                </h2>
+                </h1>
             </div>
             <div>
                 <form action="" method="post">
@@ -57,7 +57,7 @@
                             <label for="password"> PASSWORD* </label>
                             <input type="password" name="password" required>
                             <div class="error message" id="password-error"></div>
-                            <div id="password-conditions"></div>
+                            <div class="requirements helper" id="password-conditions"></div>
                         </div>
                         
                         <div class="form-group">
@@ -75,7 +75,8 @@
         </div>
     </div>
         <script>
-            const passwordRequirements = `
+
+            const passwordRequirementsHTML = `
                 <span class="requirements title">For your security, create a password with at least:</span><br>
                 <span class="pw-rule pw-lowercase">
                     <i class="icon fa-regular fa-circle-xmark"></i> One lowercase letter
@@ -94,135 +95,84 @@
                 </span>
             `;
      
-        
             let passwordInput = document.querySelector("[name='password']");
-            let pwConditions = document.querySelector('#password-conditions');
+            let requirementsContainer = document.querySelector('.requirements.helper');
+            let validationRules = [];
+            let validPassword = false;
 
             // Show password requirements on focus
             passwordInput.addEventListener('focus', (event) => {
-                if (passwordInput.value == '') pwConditions.innerHTML = passwordRequirements;
+                if (passwordInput.value == '') {
+                    requirementsContainer.innerHTML = passwordRequirementsHTML;
+                    requirementsContainer.classList.add('active');
+                }
+
+                validationRules = [
+                    { regex: /[a-z]/, element: document.querySelector(".pw-rule.pw-lowercase") },
+                    { regex: /[A-Z]/, element: document.querySelector(".pw-rule.pw-uppercase") },
+                    { regex: /\d/, element: document.querySelector(".pw-rule.pw-number") },
+                    { regex: /[^A-Za-z0-9\s]/, element: document.querySelector(".pw-rule.pw-special") },
+                    { regex: /.{8}/, element: document.querySelector(".pw-rule.pw-length") },
+                    ];
             });
 
             // Toggle condition matches colors
-                passwordInput.addEventListener('input', (event) => {
-                let lowerCaseCheck = document.querySelector('.pw-rule.pw-lowercase');
-                let upperCaseCheck = document.querySelector('.pw-rule.pw-uppercase');
-                let numberCheck = document.querySelector('.pw-rule.pw-number');
-                let specialCharCheck = document.querySelector('.pw-rule.pw-special');
-                let lengthCheck =  document.querySelector('.pw-rule.pw-length');
+            passwordInput.addEventListener('input', (event) => {
+
                 let checkIconClass = "icon fa-regular fa-circle-check";
                 let xIconClass = "icon fa-regular fa-circle-xmark";
 
-                let conditionsMet = [];
+                for (const condition of validationRules) {
+                    const icon = condition.element.children[0];
+                    const isValid = condition.regex.test(passwordInput.value);
+                    icon.classList = isValid ? checkIconClass : xIconClass;
+                    condition.element.style.color = isValid ? "green" : "grey";
+                    validPassword = isValid ? true : false;
+                }
+            });
 
-                // lowercase check / toggle
-                if (/[a-z]/.test(passwordInput.value)) {
-                    lowerCaseCheck.children[0].classList = checkIconClass;
-                    lowerCaseCheck.style.color = "green";
-                    conditionsMet[0] = "valid";
-                }
-                else {
-                    lowerCaseCheck.children[0].classList = xIconClass;
-                    lowerCaseCheck.style.color = "grey";
-                    conditionsMet[0] = "invalid";
-                }
-                
-                // uppercase check / toggle
-                if (/[A-Z]/.test(passwordInput.value)) {
-                    upperCaseCheck.children[0].classList = checkIconClass;
-                    upperCaseCheck.style.color = "green";
-                    conditionsMet[1] = "valid";
-                }
-                else {
-                    upperCaseCheck.children[0].classList = xIconClass;
-                    upperCaseCheck.style.color = "grey";
-                    conditionsMet[1] = "invalid";
-                }
-
-                // number check / toggle
-                if (/\d/.test(passwordInput.value)) {
-                    numberCheck.children[0].classList = checkIconClass;
-                    numberCheck.style.color = "green";
-                    conditionsMet[2] = "valid";
-                }
-                else {
-                    numberCheck.children[0].classList = xIconClass;
-                    numberCheck.style.color = "grey";
-                    conditionsMet[2] = "invalid";
-                }
-
-                // special character check / toggle
-                if (/[^A-Za-z0-9\s]/.test(passwordInput.value)) {
-                    specialCharCheck.children[0].classList =  checkIconClass;
-                    specialCharCheck.style.color = "green";
-                    conditionsMet[3] = "valid";
-                }
-                else {
-                    specialCharCheck.children[0].classList = xIconClass;
-                    specialCharCheck.style.color = "grey";
-                    conditionsMet[4] = "invalid";
-                }
-
-                // 8 or more characters check / toggle
-                if (/.{8}/.test(passwordInput.value)) {
-                    lengthCheck.children[0].classList =  checkIconClass;
-                    lengthCheck.style.color = "green";
-                    conditionsMet[5] = "valid";
-                }
-                else {
-                    lengthCheck.children[0].classList = xIconClass;
-                    lengthCheck.style.color = "grey";
-                    conditionsMet[5] = "invalid";
-                }
-                if (conditionsMet.some((condition) => condition === "invalid")) {
-                    passwordInput.classList = "";
-                }
-                else {
-                    passwordInput.classList = "valid";
-                };
-        });
-
-
-
-            // Toggle error message
-
+            // Check error & toggle message at focusout
             let form = document.querySelector('.form-wrapper');
             form.addEventListener('focusout', (event) => {
                 let excIconTag = '<i class="fa-solid fa-triangle-exclamation"></i>';
-                let id = event.target['name'];
-                let error = document.querySelector(`#${id}-error`);
+                let targetName = event.target['name'];
+                let errorContainer = document.querySelector(`#${targetName}-error`);
+
+                // extract regular field name of the target name value, to use in error display
+                let fieldName = targetName.includes('-') ? targetName.split(/^\w*-/)[1] : targetName;
 
                 // Compare 'password' and 'confirm password' fields for match
                 if (event.target['name'] === 'confirm-password' && event.target.value !== '') {
                     let password = document.querySelector("[name='password']");
-                                          console.log(password.value);
-                        console.log(event.target.value);
+
+                    // Display error if not match
                     if (event.target.value != password.value) {
                         event.target.classList.add('error');
-                        error.innerHTML = excIconTag + 'Passwords do not match';
+                        errorContainer.innerHTML = excIconTag + 'Passwords do not match';
                     }
+
                     else {
-                        error.textContent = '';
+                        errorContainer.textContent = '';
                         event.target.classList.remove('error');
                     }
                 }
 
-                else if (event.target['name'] === 'password' && !(event.target.classList.contains('valid'))) {
-                    error.innerHTML = excIconTag + `Please enter a valid ${id}!`;
+                // Display error if password not valid
+                else if (event.target['name'] === 'password' && !(validPassword)) {
+                    console.log(validPassword);
+                    errorContainer.innerHTML = excIconTag + `Please enter a valid ${fieldName}!`;
                     event.target.classList.add('error');
                 }
-                
-                // general error handling
-                else if (event.target['name'] !== 'password' && !(event.target.checkValidity())) {
-                    error.innerHTML = excIconTag + `Please enter a valid ${id}!`;
-                    event.target.classList.add('error');
 
+                // Display error if any other field other than password is not valid
+                else if (event.target['name'] !== 'password' && !(event.target.checkValidity())) {
+                    errorContainer.innerHTML = excIconTag + `Please enter a valid ${fieldName}!`;
+                    event.target.classList.add('error');
                 }
 
                 else {
-                    error.textContent = '';
+                    errorContainer.textContent = '';
                     event.target.classList.remove('error');
-
                 }
             })
     </script>
